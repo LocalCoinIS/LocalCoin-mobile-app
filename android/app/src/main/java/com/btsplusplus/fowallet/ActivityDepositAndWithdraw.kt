@@ -43,7 +43,7 @@ class ActivityDepositAndWithdraw : BtsppActivity() {
         val ctx = this
         _gatewayArray = JSONArray().apply {
             //  TODO:2.5 open的新api还存在部分bug，open那边再进行修复，待修复完毕之后再开放该功能。
-//            // OpenLedger   API reference: https://github.com/bitshares/bitshares-ui/files/3068123/OL-gateways-api.pdf
+//            // OpenLedger   API reference: https://github.com/LocalCoinIS/LocalCoin-ui/files/3068123/OL-gateways-api.pdf
 //            put(JSONObject().apply {
 //                put("name", "OpenLedger")
 //                put("api", OpenLedger().initWithApiConfig(JSONObject().apply {

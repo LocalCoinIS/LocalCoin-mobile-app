@@ -28,8 +28,8 @@ class SettingManager {
     //    "wssNodes" => {
     //        # => 默认
     //        "default" => [
-    //        "wss://btsapi.magicw.net/ws",
-    //        "wss://api.bts.mobi/ws",
+    //        "wss://de.localcoin.is/",
+    //        "wss://ru.localcoin.is",
     //        ],
     //        # => 中文单独配置
     //        "cn" => [],

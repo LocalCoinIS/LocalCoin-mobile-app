@@ -15,24 +15,24 @@
 @interface GrapheneConnection()
 {
     NSString*           _url;               //  ws node url
-    
+
     NSInteger           _max_retry_num;     //  最大重连次数。
     NSInteger           _cur_retry_num;     //  当前重连次数。
-    
+
     NSInteger           _connect_timeout;   //  连接超时限制（单位：秒）
-    
+
     CFAbsoluteTime      _ts_start;          //  创建连接时间戳
     CFAbsoluteTime      _ts_logined;        //  登录后时间戳
     CFAbsoluteTime      _ts_api_inited;     //  API初始化完成时间戳
-    
+
     CFAbsoluteTime      _time_cost_init;    //  初始化耗时（从连接到login请求完毕）
-    
+
     GrapheneWebSocket*  _wsrpc;;
-    
+
     GrapheneApi*        _api_db;
     GrapheneApi*        _api_net;
     GrapheneApi*        _api_history;
-    
+
     BOOL                _init_done;         //  是否初始化完毕
 }
 @end
@@ -54,19 +54,19 @@
         _max_retry_num = max_retry_num;
         _cur_retry_num = 0;
         _connect_timeout = connect_timeout;
-        
+
         _ts_start = 0;
         _ts_logined = 0;
         _ts_api_inited = 0;
         _time_cost_init = 0;
-        
+
         _wsrpc = nil;
-        
+
         //  直接初始化 api 对象，任何情况 api 都不应该为 nil。
         _api_db = [[GrapheneApi alloc] initWithConnection:self andApi:@"database"];
         _api_net= [[GrapheneApi alloc] initWithConnection:self andApi:@"network_broadcast"];
         _api_history = [[GrapheneApi alloc] initWithConnection:self andApi:@"history"];
-        
+
         _init_done = NO;
     }
     return self;
@@ -117,43 +117,43 @@
 - (WsPromise*)connect_to_node_core
 {
     //  TODO:fowallet websocket address
-    //  wss://ws.hellobts.com
-    //  wss://ws.gdex.top           - 巨蟹网关
-    //  wss://btsapi.magicw.net/ws  - 鼓鼓钱包
-    
+    //  wss://ru.localcoin.is
+    //  wss://de.localcoin.is
+    //  wss://fi.localcoin.is
+
     //  测试网络
-    //  wss://node.testnet.bitshares.eu
-    //  wss://testnet.nodes.bitshares.ws
-    
+    //  wss://node.testnet.localcoin.is
+    //  wss://testnet.nodes.localcoin.is
+
     //  先释放连接。
     [self close_connection];
-    
+
     _ts_start = CFAbsoluteTimeGetCurrent();
-    
+
     //  初始化socket、建立连接
     _wsrpc = [[GrapheneWebSocket alloc] initWithServer:_url connect_timeout:_connect_timeout keepaliveCb:^(BOOL closed) {
         [self onKeepAliveCallback:closed];
     }];
-    
+
     //  API结点登录的账号密码，公共结点大部分都为空，少数api需要登录授权。
     //  TODO:考虑配置username和password。
     NSString* rpc_username = @"";
     NSString* rpc_password = @"";
-    
-    //  参考：http://docs.bitshares.org/api/access.html
-    //  全api文档：https://bitshares.org/doxygen/namespacegraphene_1_1app.html
+
+    //  参考：https://dev.localcoin.is/en/latest/api/api_about.html
+    //  全api文档：https://localcoin.is/doxygen/namespacegraphene_1_1app.html
     //  TODO:fowallet 其他的api：network_node、asset、crypto、debug、block需要重钱包节点开放才可以用（目前只能自己搭建节点。）
-    
+
     //  登录连接成功，然后登录重钱包结点，大部分公共结点都不需要帐号密码授权，私有结点可以配置帐号密码访问不同权限api。
     return [[_wsrpc login:rpc_username password:rpc_password] then:(^id(id data) {
         NSLog(@"[wsnode]: %@ login responsed: %@", _url, data);
         _ts_logined = CFAbsoluteTimeGetCurrent();
-        
+
         //  初始化api
         WsPromise* p1 = [_api_db api_init];
         WsPromise* p2 = [_api_net api_init];
         WsPromise* p3 = [_api_history api_init];
-        
+
         return [[WsPromise all:@[p1, p2, p3]] then:(^id(id success_array) {
             NSLog(@"[wsnode]: %@ init all api done: %@", _url, success_array);
             _ts_api_inited = CFAbsoluteTimeGetCurrent();

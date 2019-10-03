@@ -9,7 +9,7 @@
 
 ## Clone
 ```
-git clone https://github.com/bitshares/bitshares-mobile-app.git
+git clone https://github.com/LocalCoinIS/localcoin-mobile-app.git
 ```
 
 ## Compile secp256k1 for iOS.

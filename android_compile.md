@@ -27,14 +27,14 @@ https://developer.android.com/studio
   </a>
 </p>
 
-## Clone Project 
+## Clone Project
 ```
-git clone https://github.com/bitshares/bitshares-mobile-app.git
+git clone https://github.com/LocalCoinIS/localcoin-mobile-app.git
 ```
 
 ## Open Project
 ```
-Open the project directory bitshare-mobile-app/android
+Open the project directory localcoin-mobile-app/android
 ```
 <p>
   <a href="#">

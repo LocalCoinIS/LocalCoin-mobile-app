@@ -69,7 +69,7 @@ class OpenLedger : GatewayBase() {
             val enableWithdraw = withdraw_options.isTrue("healthy") && withdraw_options.getInt("status") != 0
             val enableDeposit = deposit_options.isTrue("healthy") && deposit_options.getInt("status") != 0
 
-            //  细节参考: https://github.com/bitshares/bitshares-ui/pull/2573/commits/8cc40ece6026b24a9becd0bf305b858e6d0d66c5
+            //  细节参考: https://github.com/LocalCoinIS/LocalCoin-ui/pull/2573/commits/8cc40ece6026b24a9becd0bf305b858e6d0d66c5
             val deposit_amount = deposit_item.getJSONObject("amount").getJSONObject("source")
             val withdraw_amount = withdraw_item.getJSONObject("amount").getJSONObject("destination")
             val deposit_limit = deposit_item.getJSONObject("limit").getJSONObject("source")

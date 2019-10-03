@@ -9,7 +9,7 @@
 
 ## 克隆代码
 ```
-git clone https://github.com/bitshares/bitshares-mobile-app.git
+git clone https://github.com/LocalCoinIS/localcoin-mobile-app.git
 ```
 
 ## 编译 iOS 的 secp256k1 库。
